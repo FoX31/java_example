@@ -1,6 +1,7 @@
 package ru.stqa.training.selenium;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -24,26 +25,41 @@ public class StartTest {
         driver = new ChromeDriver();
         System.out.println(((HasCapabilities) driver).getCapabilities());
         wait = new WebDriverWait(driver, 10);
+
     }
-    @Test
-    public void myFirstTest() throws InterruptedException {
+
+    public void loginAdmin(){
         driver.navigate().to("http://localhost:8080/litecart/admin/");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
         driver.findElement(By.name("login")).click();
-        menu(true);
     }
-    public void menu(Boolean click){
-        if (click){
-            int b = driver.findElements(By.xpath("//li[@id ='app-']")).size();
-            for (int i=0; i<b; i++){
-                List<WebElement> list = driver.findElements(By.xpath("//li[@id ='app-']"));
-                list.get(i).click();
-                int o = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']")).size();
-                for (int a=1; a<o; a++){
-                    List<WebElement> list1 = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']"));
-                    list1.get(a).click();
-                }
+
+    public void openMainPage(){
+        driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+    @Test
+    public void test8() throws InterruptedException {
+        openMainPage();
+        List<WebElement> list = driver.findElements(By.xpath("//li[@class='product column shadow hover-light']"));
+        for (int i = 0; i < list.size(); i++){
+            List<WebElement> stikers = list.get(i).findElements(By.xpath(".//div[@class='sticker new' or @class='sticker sale']"));
+            Assert.assertEquals(stikers.size(), 1);
+        }
+    }
+
+    @Test
+    public void test7(){
+        loginAdmin();
+        int b = driver.findElements(By.xpath("//li[@id ='app-']")).size();
+        for (int i=0; i<b; i++){
+            List<WebElement> list = driver.findElements(By.xpath("//li[@id ='app-']"));
+            list.get(i).click();
+            int o = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']")).size();
+            for (int a=1; a<o; a++){
+                List<WebElement> list1 = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']"));
+                list1.get(a).click();
             }
         }
     }
