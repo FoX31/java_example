@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -28,6 +29,43 @@ public class StartTest extends TestBase{
 
     public void openMainPage(){
         driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+    @Test
+    public void test11() throws InterruptedException {
+        openMainPage();
+        driver.findElement(By.xpath("//*[@id='box-account-login']//tr[5]/td/a")).click();
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("//input[@name='firstname']")).sendKeys("Иван");
+        driver.findElement(By.xpath("//input[@name='lastname']")).sendKeys("Иванов");
+        driver.findElement(By.xpath("//input[@name='address1']")).sendKeys("Брайтон бич");
+        driver.findElement(By.xpath("//input[@name='postcode']")).sendKeys("00000");
+        driver.findElement(By.xpath("//input[@name='city']")).sendKeys("Vice city");
+        driver.findElement(By.xpath("//span[@class='select2-selection__arrow']")).click();
+
+        driver.findElement(By.xpath("//input[@class='select2-search__field']")).sendKeys("United States");
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("//li[@class='select2-results__option select2-results__option--highlighted']")).click();
+        TimeUnit.SECONDS.sleep(1);
+        char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 20; i++) {
+            char c = chars[random.nextInt(chars.length)];
+            sb.append(c);
+        }
+        String email = sb.toString() + "@mail.ru";
+        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(email);
+        driver.findElement(By.xpath("//input[@name='phone']")).sendKeys("+10000000000");
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys("password");
+        driver.findElement(By.xpath("//input[@name='confirmed_password']")).sendKeys("password");
+        driver.findElement(By.xpath("//button[@name='create_account']")).click();
+        driver.findElement(By.xpath("//*[@id='box-account']//li[4]/a")).click();
+        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(email);
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys("password");
+        driver.findElement(By.xpath("//button[@name='login']")).click();
+        driver.findElement(By.xpath("//*[@id='box-account']//li[4]/a")).click();
+        TimeUnit.SECONDS.sleep(2);
     }
 
     @Test

@@ -21,17 +21,17 @@ public class TestBase {
   @Before
   public void start() {
     //FireFox
-     /* DesiredCapabilities caps = new DesiredCapabilities();
+      /*DesiredCapabilities caps = new DesiredCapabilities();
       caps.setCapability(FirefoxDriver.MARIONETTE, false);
       driver = new FirefoxDriver();
       wait = new WebDriverWait(driver, 10);*/
     //IE
-      DesiredCapabilities caps = new DesiredCapabilities();
-      driver = new InternetExplorerDriver(caps);
-    /*//Chrome
+      /*DesiredCapabilities caps = new DesiredCapabilities();
+      driver = new InternetExplorerDriver(caps);*/
+    //Chrome
       driver = new ChromeDriver();
       System.out.println(((HasCapabilities) driver).getCapabilities());
-      wait = new WebDriverWait(driver, 10);*/
+      wait = new WebDriverWait(driver, 10);
   }
 
 
