@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +31,33 @@ public class StartTest extends TestBase{
 
     public void openMainPage(){
         driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+    @Test
+    public void test12() throws InterruptedException {
+        String path = new File(".").getAbsolutePath();
+        String productName = "Name" + (int) (Math.random() * 1000);
+        loginAdmin();
+        driver.findElement(By.xpath("//span[.='Catalog']")).click();
+        driver.findElement(By.xpath("//a[.=' Add New Product']")).click();
+        driver.findElement(By.xpath("(//input[@name='status'])[1]")).click();
+        driver.findElement(By.xpath("//input[@name='name[en]']")).sendKeys(productName);
+        driver.findElement(By.xpath("//input[@name='code']")).sendKeys("12345");
+        driver.findElement(By.xpath("//input[@name='new_images[]']")).sendKeys(path + "\\src\\test\\resources\\qwerty.jpg");
+        driver.findElement(By.xpath("//a[.='Information']")).click();
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("//input[@name='short_description[en]']")).sendKeys("Short description");
+        driver.findElement(By.xpath("//textarea[@name='description[en]']")).sendKeys("Description");
+        driver.findElement(By.xpath("//input[@name='head_title[en]']")).sendKeys("head title");
+        driver.findElement(By.xpath("//a[.='Prices']")).click();
+        TimeUnit.SECONDS.sleep(1);
+        driver.findElement(By.xpath("//input[@name='purchase_price']")).sendKeys("1");
+        driver.findElement(By.xpath("//select[@name='purchase_price_currency_code']")).click();
+        driver.findElement(By.xpath("//option[@value='USD']")).click();
+        driver.findElement(By.xpath("//input[@name='prices[USD]']")).sendKeys("10");
+        driver.findElement(By.xpath("//input[@name='prices[EUR]']")).sendKeys("11");
+        driver.findElement(By.xpath("//button[@name='save']")).click();
+        Assert.assertEquals(driver.findElement(By.xpath("//a[.='" + productName + "']")).getText(), productName);
     }
 
     @Test
