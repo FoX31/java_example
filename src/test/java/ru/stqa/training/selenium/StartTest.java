@@ -1,36 +1,23 @@
 package ru.stqa.training.selenium;
 
-import org.junit.After;
+import org.testng.annotations.Parameters;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.HasCapabilities;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 
 /**
  * Created by e.kutsenko on 19.06.2017.
  */
-public class StartTest {
+public class StartTest extends TestBase{
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-    @Before
-    public void start() {
-        driver = new ChromeDriver();
-        System.out.println(((HasCapabilities) driver).getCapabilities());
-        wait = new WebDriverWait(driver, 10);
 
-    }
 
     public void loginAdmin(){
         driver.navigate().to("http://localhost:8080/litecart/admin/");
@@ -41,6 +28,68 @@ public class StartTest {
 
     public void openMainPage(){
         driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+    @Test
+    public void test10() throws InterruptedException {
+        openMainPage();
+        String nameMP = driver.findElement(By.xpath("//div[@id='box-campaigns']//div[@class='name']")).getText();
+        String regularPriceMP = driver.findElement(By.xpath("//div[@id='box-campaigns']//s[@class='regular-price']")).getText();
+        String campaingPriceMP = driver.findElement(By.xpath("//div[@id='box-campaigns']//strong[@class='campaign-price']")).getText();
+        String regularPriceMPColor = driver.findElement(By.xpath("//div[@id='box-campaigns']//s[@class='regular-price']")).getCssValue("color");
+        String[] hexValue = regularPriceMPColor.replace("rgba(", "").replace("rgb(", "").replace(")", "").split(",");
+        //System.out.println(regularPriceMPColor);
+        Assert.assertEquals(hexValue[0].trim(), hexValue[1].trim());
+        Assert.assertEquals(hexValue[1].trim(), hexValue[2].trim());
+
+        String regularPriceMPDecoration = driver.findElement(By.xpath("//div[@id='box-campaigns']//s[@class='regular-price']")).getCssValue("text-decoration");
+        hexValue = regularPriceMPDecoration.split(" ");
+        Assert.assertEquals(hexValue[0], "line-through");
+
+        String campaingPriceMPColor = driver.findElement(By.xpath("//div[@id='box-campaigns']//strong[@class='campaign-price']")).getCssValue("color");
+        hexValue = campaingPriceMPColor.replace("rgba(", "").replace(")", "").split(",");
+        Assert.assertEquals(hexValue[1].trim(), "0");
+        Assert.assertEquals(hexValue[2].trim(), "0");
+
+        String campaingriceMPFontWeight = driver.findElement(By.xpath("//div[@id='box-campaigns']//strong[@class='campaign-price']")).getCssValue("font-weight");
+        assertThat(campaingriceMPFontWeight, anyOf(is("bold"), is("900")));
+
+        String regularPriceMPFontSize = driver.findElement(By.xpath("//div[@id='box-campaigns']//s[@class='regular-price']")).getCssValue("font-size");
+        String campaingPriceMPFontSize = driver.findElement(By.xpath("//div[@id='box-campaigns']//strong[@class='campaign-price']")).getCssValue("font-size");
+        Assert.assertTrue("", Double.parseDouble(regularPriceMPFontSize.replace("px","")) < Double.parseDouble(campaingPriceMPFontSize.replace("px","")));
+
+        driver.findElement(By.xpath("//div[@id='box-campaigns']//li[@class='product column shadow hover-light']")).click();
+        String namePP = driver.findElement(By.xpath("//h1[@class='title']")).getText();
+        Assert.assertEquals(nameMP, namePP);
+
+        String regularPricePP = driver.findElement(By.xpath("//div[@class='price-wrapper']//s[@class='regular-price']")).getText();
+        Assert.assertEquals(regularPriceMP, regularPricePP);
+
+        String campaingPricePP = driver.findElement(By.xpath("//div[@class='price-wrapper']//strong[@class='campaign-price']")).getText();
+        Assert.assertEquals(campaingPriceMP, campaingPricePP);
+
+        String regularPricePPColor = driver.findElement(By.xpath("//div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("color");
+        hexValue = regularPricePPColor.replace("rgba(", "").replace("rgb(", "").replace(")", "").split(",");
+        Assert.assertEquals(hexValue[0].trim(), hexValue[1].trim());
+        Assert.assertEquals(hexValue[1].trim(), hexValue[2].trim());
+
+        String regularPricePPDecoration = driver.findElement(By.xpath("//div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("text-decoration");
+        hexValue = regularPricePPDecoration.split(" ");
+        Assert.assertEquals(hexValue[0], "line-through");
+
+        String campaingPricePPColor = driver.findElement(By.xpath("//div[@class='price-wrapper']//strong[@class='campaign-price']")).getCssValue("color");
+        hexValue = campaingPricePPColor.replace("rgba(", "").replace(")", "").split(",");
+        Assert.assertEquals(hexValue[1].trim(), "0");
+        Assert.assertEquals(hexValue[2].trim(), "0");
+
+        String campaingricePPFontWeight = driver.findElement(By.xpath("//div[@class='price-wrapper']//strong[@class='campaign-price']")).getCssValue("font-weight");
+        assertThat(campaingricePPFontWeight, anyOf(is("bold"), is("700")));
+
+        String regularPricePPFontSize = driver.findElement(By.xpath("//div[@class='price-wrapper']//s[@class='regular-price']")).getCssValue("font-size");
+        String campaingPricePPFontSize = driver.findElement(By.xpath("//div[@class='price-wrapper']//strong[@class='campaign-price']")).getCssValue("font-size");
+        Assert.assertTrue("", Double.parseDouble(regularPricePPFontSize.replace("px","")) < Double.parseDouble(campaingPricePPFontSize.replace("px","")));
+
+
     }
 
     @Test
@@ -120,9 +169,5 @@ public class StartTest {
         }
     }
 
-    @After
-    public void stop(){
-    driver.quit();
-    driver = null;
-    }
+
 }
