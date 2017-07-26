@@ -1,5 +1,8 @@
 package ru.stqa.training.selenium;
 
+import org.apache.bcel.ExceptionConstants;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Parameters;
 import org.junit.Assert;
@@ -8,9 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -22,6 +23,16 @@ import static org.hamcrest.Matchers.*;
 public class StartTest extends TestBase{
 
 
+    public ExpectedCondition<String> anyWindowOtherThan(Set<String>oldWindows){
+      return new ExpectedCondition<String>(){
+        public String apply(WebDriver driver){
+          Set<String> handles = driver.getWindowHandles();
+          handles.removeAll(oldWindows);
+          return handles.size() > 0 ? handles.iterator().next(): null;
+        }
+      };
+    }
+
 
     public void loginAdmin(){
         driver.navigate().to("http://localhost:8080/litecart/admin/");
@@ -32,6 +43,69 @@ public class StartTest extends TestBase{
 
     public void openMainPage(){
         driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+    @Test
+    public void test14() throws InterruptedException{
+      loginAdmin();
+      driver.findElement(By.xpath("//span[.='Countries']")).click();
+      driver.findElement(By.xpath("//a[.=' Add New Country']")).click();
+      String winHandleBefore = driver.getWindowHandle();
+      driver.findElement(By.xpath("(//a[@target='_blank'])[5]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[6]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[7]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[8]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[9]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[10]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
+
+      driver.findElement(By.xpath("(//a[@target='_blank'])[11]")).click();
+      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+      for(String winHandle : driver.getWindowHandles()){
+        driver.switchTo().window(winHandle);
+      }
+      driver.close();
+      driver.switchTo().window(winHandleBefore);
     }
 
     @Test
