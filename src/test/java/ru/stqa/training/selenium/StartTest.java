@@ -84,36 +84,21 @@ public class StartTest extends TestBase{
     @Test
     public void test13() throws InterruptedException{
         openMainPage();
-        driver.findElement(By.xpath("(//li[@class='product column shadow hover-light'])[1]")).click();
-        driver.findElement(By.xpath("//button[@name='add_cart_product']")).click();
-        WebElement cart = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='cart']//span[.='1']")));
-        driver.findElement(By.xpath("//li[@class='general-0']")).click();
-
-        driver.findElement(By.xpath("(//li[@class='product column shadow hover-light'])[1]")).click();
-        driver.findElement(By.xpath("//button[@name='add_cart_product']")).click();
-        WebElement cart2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='cart']//span[.='2']")));
-        driver.findElement(By.xpath("//li[@class='general-0']")).click();
-
-        driver.findElement(By.xpath("(//li[@class='product column shadow hover-light'])[1]")).click();
-        driver.findElement(By.xpath("//button[@name='add_cart_product']")).click();
-        WebElement cart3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='cart']//span[.='3']")));
-        driver.findElement(By.xpath("//li[@class='general-0']")).click();
+        for (int i = 1; i < 4; i++) {
+          driver.findElement(By.xpath("(//li[@class='product column shadow hover-light'])[1]")).click();
+          driver.findElement(By.xpath("//button[@name='add_cart_product']")).click();
+          WebElement cart = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='cart']//span[.='"+ i +"']")));
+          driver.findElement(By.xpath("//li[@class='general-0']")).click();
+        }
 
         driver.findElement(By.xpath("//a[.='Checkout »']")).click();
         List<WebElement> list = driver.findElements(By.xpath("//table[@class='dataTable rounded-corners']//tr"));
-        WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='remove_cart_item']")));
-        element.click();
-        wait.until(ExpectedConditions.stalenessOf(list.get(0)));
+        for (int i = 1; i < list.size() - 3; i++) {
+          WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='remove_cart_item']")));
+          element.click();
+          wait.until(ExpectedConditions.stalenessOf(list.get(0)));
+        }
 
-        list = driver.findElements(By.xpath("//table[@class='dataTable rounded-corners']//tr"));
-        WebElement element2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='remove_cart_item']")));
-        element2.click();
-        wait.until(ExpectedConditions.stalenessOf(list.get(0)));
-
-        list = driver.findElements(By.xpath("//table[@class='dataTable rounded-corners']//tr"));
-        WebElement element3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@name='remove_cart_item']")));
-        element3.click();
-        wait.until(ExpectedConditions.stalenessOf(list.get(0)));
     }
 
     @Test
