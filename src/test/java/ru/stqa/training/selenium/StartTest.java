@@ -68,61 +68,17 @@ public class StartTest extends TestBase{
       driver.findElement(By.xpath("//span[.='Countries']")).click();
       driver.findElement(By.xpath("//a[.=' Add New Country']")).click();
       String winHandleBefore = driver.getWindowHandle();
-      driver.findElement(By.xpath("(//a[@target='_blank'])[5]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
+      List<WebElement> list = driver.findElements(By.xpath("//a[@target='_blank']"));
+      for (int i = 5; i < list.size(); i++) {
+        list.get(i).click();
+        TimeUnit.SECONDS.sleep(2);
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        for (String winHandle : driver.getWindowHandles()) {
+          driver.switchTo().window(winHandle);
+        }
+        driver.close();
+        driver.switchTo().window(winHandleBefore);
       }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[6]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[7]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[8]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[9]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[10]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
-
-      driver.findElement(By.xpath("(//a[@target='_blank'])[11]")).click();
-      wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-      for(String winHandle : driver.getWindowHandles()){
-        driver.switchTo().window(winHandle);
-      }
-      driver.close();
-      driver.switchTo().window(winHandleBefore);
     }
 
     @Test
