@@ -72,7 +72,8 @@ public class StartTest extends TestBase{
       for (int a=1; a<o; a++){
         List<WebElement> list1 = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']"));
         list1.get(a).click();
-        driver.findElement(By.xpath("//h1"));
+        List<WebElement> list2 = driver.findElements(By.xpath("//h1"));
+        Assert.assertTrue("Header not found!", list2.size() > 0);
       }
     }
   }
