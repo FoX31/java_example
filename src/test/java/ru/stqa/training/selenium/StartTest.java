@@ -2,6 +2,7 @@ package ru.stqa.training.selenium;
 
 import org.apache.bcel.ExceptionConstants;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Parameters;
@@ -43,6 +44,21 @@ public class StartTest extends TestBase{
 
     public void openMainPage(){
         driver.navigate().to("http://localhost:8080/litecart/en/");
+    }
+
+
+    @Test
+    public void test15() throws InterruptedException {
+      loginAdmin();
+      driver.navigate().to("http://localhost:8080/litecart/admin/?app=catalog&doc=catalog&category_id=1");
+      int q = driver.findElements(By.xpath("//tr[@class='row']//td//a[@title='Edit']")).size();
+      for (int i = 2; i < q; i++){
+        List<WebElement> list = driver.findElements(By.xpath("//tr[@class='row']//td//a[@title='Edit']"));
+        list.get(i).click();
+        driver.manage().logs().get("browser").forEach(l -> System.out.println(l));
+        driver.findElement(By.xpath("//button[@name='cancel']")).click();
+      }
+
     }
 
   @Test
@@ -98,7 +114,6 @@ public class StartTest extends TestBase{
           element.click();
           wait.until(ExpectedConditions.stalenessOf(list.get(0)));
         }
-
     }
 
     @Test
