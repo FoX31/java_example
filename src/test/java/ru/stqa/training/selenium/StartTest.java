@@ -45,6 +45,23 @@ public class StartTest extends TestBase{
         driver.navigate().to("http://localhost:8080/litecart/en/");
     }
 
+  @Test
+  public void myFirstTest() throws InterruptedException {
+    loginAdmin();
+    int b = driver.findElements(By.xpath("//li[@id ='app-']")).size();
+    for (int i=0; i<b; i++){
+      List<WebElement> list = driver.findElements(By.xpath("//li[@id ='app-']"));
+      list.get(i).click();
+      int o = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']")).size();
+      for (int a=1; a<o; a++){
+        List<WebElement> list1 = driver.findElements(By.xpath("//ul[@class='docs']//span[@class ='name']"));
+        list1.get(a).click();
+        driver.findElement(By.xpath("//h1"));
+      }
+    }
+  }
+
+
     @Test
     public void test14() throws InterruptedException{
       loginAdmin();
